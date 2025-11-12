@@ -1,0 +1,32 @@
+﻿@page "/Account/Register"
+
+<PageTitle>Register</PageTitle>
+
+<h3>Register</h3>
+
+<EditForm Model="Input" OnValidSubmit="HandleRegister" FormName="register">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label>Email:</label>
+        <InputText @bind-Value="Input.Email" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Password:</label>
+        <InputText type="password" @bind-Value="Input.Password" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Confirm Password:</label>
+        <InputText type="password" @bind-Value="Input.ConfirmPassword" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger mt-3">@errorMessage</div>
+}
