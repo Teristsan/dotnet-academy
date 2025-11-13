@@ -14,6 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddCascadingAuthenticationState();
+
 builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
 	options.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectionString"]));
 
@@ -31,7 +33,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
 	options.Cookie.HttpOnly = true;
 	options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-	options.LoginPath = "/Account/Login";
+	options.LoginPath = "/login";
 	options.AccessDeniedPath = "/Account/AccessDenied";
 	options.SlidingExpiration = true;
 });

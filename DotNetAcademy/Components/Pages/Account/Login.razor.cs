@@ -28,7 +28,7 @@ public partial class Login
 
 		if (result.Succeeded)
 		{
-			Navigation.NavigateTo("/");
+			Navigation.NavigateTo("/", forceLoad: true);
 		}
 		else
 		{

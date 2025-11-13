@@ -15,6 +15,6 @@ public partial class Logout
 	protected override async Task OnInitializedAsync()
 	{
 		await SignInManager.SignOutAsync();
-		Navigation.NavigateTo("/");
+		Navigation.NavigateTo("/", forceLoad: true);
 	}
 }
