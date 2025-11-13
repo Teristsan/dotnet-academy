@@ -4,6 +4,7 @@ using DotNetAcademy.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotNetAcademy.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251113110625_SeedUserAndRoleTables")]
+    partial class SeedUserAndRoleTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,24 +37,12 @@ namespace DotNetAcademy.Persistence.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -104,11 +95,8 @@ namespace DotNetAcademy.Persistence.Migrations
                             Id = "admin-user-id",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "admin-concurrency-stamp-static",
-                            Description = "Administrator of the application",
                             Email = "admin@dotnetacademy.com",
                             EmailConfirmed = true,
-                            FirstName = "Quentin",
-                            LastName = "Tarantino",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@DOTNETACADEMY.COM",
                             NormalizedUserName = "ADMIN@DOTNETACADEMY.COM",
@@ -123,11 +111,8 @@ namespace DotNetAcademy.Persistence.Migrations
                             Id = "regular-user-id",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "user-concurrency-stamp-static",
-                            Description = "Tears in rain",
                             Email = "user@dotnetacademy.com",
                             EmailConfirmed = true,
-                            FirstName = "Roy",
-                            LastName = "Batty",
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@DOTNETACADEMY.COM",
                             NormalizedUserName = "USER@DOTNETACADEMY.COM",
