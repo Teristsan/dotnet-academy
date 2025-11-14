@@ -23,11 +23,12 @@ public class ItemRepository(IDbContextFactory<ApplicationDbContext> dbContextFac
 		return items;
 	}
 
-	public async Task<IEnumerable<Item>> GetPaginatedItemsAsync(int pageNumber, int pageSize)
+	public async Task<IEnumerable<Item>> GetPaginatedItemsAsync(int pageNumber, int pageSize, string mediaType)
 	{
 		using var context = dbContextFactory.CreateDbContext();
 
 		var items = await context.Items
+			.Where(item => item.MediaType == mediaType)
 			.Skip((pageNumber - 1) * pageSize)
 			.Take(pageSize)
 			.ToListAsync();

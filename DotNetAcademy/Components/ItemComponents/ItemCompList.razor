@@ -1,0 +1,131 @@
+﻿@using DotNetAcademy.Enums
+@using DotNetAcademy.Models
+@using DotNetAcademy.Models.Mappings
+@using DotNetAcademy.Services.ItemService
+@rendermode InteractiveServer
+
+<div class="px-4 py-4" style="width: 60%">
+    <!--Media type buttons-->
+    <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-start mb-3 gap-2">
+            <button class="btn btn-dark m-0 @(MediaType == MediaTypeEnum.Movie ? "disabled" : "")" @onclick="async () => { await ChangeMediaType(MediaTypeEnum.Movie); }">Movies</button>
+            <button class="btn btn-dark m-0 @(MediaType == MediaTypeEnum.Series ? "disabled" : "")" @onclick="async () => { await ChangeMediaType(MediaTypeEnum.Series); }">Series</button>
+        </div>
+        <div>
+            @if (isItemAdditionSuccessful)
+            {
+                <div class="alert alert-success">
+                    Item addition was successful!
+                </div>
+            }
+        </div>
+    </div>
+
+    @if (Items == null || Items.Count == 0)
+    {
+        <div class="alert alert-dark text-center">The first rule of Fight Club is?</div>
+    }
+    else
+    {
+        <!-- Items Grid -->
+        <div class="row mb-4 justify-content-center">
+            @foreach (var item in Items)
+            {
+                <div class="col-3 mb-3">
+                    <ItemComp Item="@item" />
+                </div>
+            }
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(CurrentPage == 1 ? "disabled" : "")">
+                    <button class="btn btn-dark m-1" @onclick="() => GetPageItems(CurrentPage - 1)" disabled="@(CurrentPage == 1)">
+                        Previous
+                    </button>
+                </li>
+                @for (int i = 1; i <= TotalPages; i++)
+                {
+                    var pageNumber = i;
+                    <li class="page-item @(CurrentPage == pageNumber ? "active" : "")">
+                        <button class="btn btn-dark m-1" @onclick="() => GetPageItems(pageNumber)" disabled="@(CurrentPage == pageNumber)">
+                            @pageNumber
+                        </button>
+                    </li>
+                }
+                <li class="page-item @(CurrentPage == TotalPages ? "disabled" : "")">
+                    <button class="btn btn-dark m-1" @onclick="() => GetPageItems(CurrentPage + 1)" disabled="@(CurrentPage == TotalPages)">
+                        Next
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>
+
+@code{
+    [Inject]
+    private IItemService ItemService { get; set; } = null!;
+
+    [Inject]
+    NavigationManager NavigationManager { get; set; } = null!;
+
+    [Parameter]
+    public MediaTypeEnum MediaType { get; set; } = MediaTypeEnum.Movie;
+
+    public int CurrentPage { get; set; } = 1;
+    public int ItemsPerPage { get; set; } = 8;
+
+    private bool isItemAdditionSuccessful = false;
+
+    public int TotalPages { get; set; }
+
+    public List<GetItemModel> Items { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadPageItemList(MediaType);
+    }
+
+    private async Task LoadPageItemList(MediaTypeEnum mediaType)
+    {
+        var mediaTypeString = mediaType.ToString("G");
+        var totalItems = await ItemService.GetPaginatedItemsAsync(CurrentPage, ItemsPerPage, mediaTypeString);
+        var totalItemsCount = await ItemService.CountItemsAsync();
+
+        TotalPages = (int)Math.Ceiling((double)totalItemsCount / ItemsPerPage);
+        Items = totalItems?.ToModelList() ?? new List<GetItemModel>();
+    }
+
+    private async Task GetPageItems(int page)
+    {
+        if (page >= 1 && page <= TotalPages)
+        {
+            CurrentPage = page;
+            await LoadPageItemList(MediaType);
+        }
+    }
+    
+    private async Task ChangeMediaType(MediaTypeEnum mediaType)
+    {
+        MediaType = mediaType;
+        CurrentPage = 1;
+        await LoadPageItemList(MediaType);
+    }
+
+    protected override async void OnInitialized()
+    {
+        var uri = new Uri(NavigationManager.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        isItemAdditionSuccessful = query["success"] == "1";
+
+        if (isItemAdditionSuccessful)
+        {
+            // Wait 4 seconds, then hide the message
+            await Task.Delay(4000);
+            isItemAdditionSuccessful = false;
+            StateHasChanged();
+        }
+    }
+}

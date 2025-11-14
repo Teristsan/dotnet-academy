@@ -1,0 +1,43 @@
+﻿@using DotNetAcademy.Models
+@rendermode InteractiveServer
+
+<div class="card h-100 shadow-sm" style="cursor: pointer; transition: transform 0.2s;">
+    <div class="position-relative">
+        <img src="@GetPosterDataUrl()" class="card-img-top" alt="@Item.Title" style="aspect-ratio: 2/3; object-fit: cover;" />
+    </div>
+    <div class="card-body p-3">
+        <h6 class="card-title text-truncate mb-2 fw-semibold">@Item.Title</h6>
+        <div class="d-flex align-items-center gap-2 small text-muted">
+            <span>@Item.ReleaseDate.ToString("d")</span>
+            <span>•</span>
+            <span>@Item.Genre</span>
+            <span>•</span>
+            <span class="text-warning fw-semibold">
+                ⭐ @Item.Rating
+            </span>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public GetItemModel Item { get; set; } = new()
+    {
+        Title = string.Empty,
+        Poster = Array.Empty<byte>(),
+        Rating = 0,
+        ReleaseDate = DateOnly.FromDateTime(DateTime.Now),
+        Genre = string.Empty
+    };
+
+    private string GetPosterDataUrl()
+    {
+        if (Item.Poster == null || Item.Poster.Length == 0)
+        {
+            return "data:image/png;base64,"; // Or use a placeholder image URL
+        }
+
+        var base64 = Convert.ToBase64String(Item.Poster);
+        return $"data:image/png;base64,{base64}";
+    }
+}

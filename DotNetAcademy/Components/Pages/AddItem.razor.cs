@@ -15,11 +15,11 @@ public partial class AddItem
 	private NavigationManager NavigationManager { get; set; } = null!;
 
 	[SupplyParameterFromForm]
-	private ItemModel Item { get; set; }
+	private AddItemModel Item { get; set; }
 
 	protected override void OnInitialized()
 	{
-		Item ??= new ItemModel
+		Item ??= new AddItemModel
 		{
 			MediaType = string.Empty,
 			Title = string.Empty,
