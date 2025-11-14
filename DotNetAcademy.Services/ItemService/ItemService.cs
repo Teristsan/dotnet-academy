@@ -3,6 +3,7 @@ using DotNetAcademy.Persistence.Repositories.Interfaces;
 using DotNetAcademy.Services.Dto;
 using DotNetAcademy.Services.ItemService;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using System.Reflection;
 
 namespace DotNetAcademy.Services.ItemsService;
 
@@ -22,15 +23,17 @@ public class ItemService(IItemRepository itemRepository) : IItemService
 		return new PageItemsInfo(items, totalItems);
 	}
 
-	public async Task AddItemAsync(string name, string description)
+	public async Task AddItemAsync(AddItemInfo itemInfo)
 	{
-		if (name == null || description == null)
-			throw new ArgumentNullException();
-
 		var item = new Item()
 		{
-			Name = name,
-			Description = description
+			MediaType = itemInfo.MediaType,
+			Title = itemInfo.Title,
+			Description = itemInfo.Description,
+			Poster = itemInfo.Poster,
+			Images = [..itemInfo.Images.Select(img => new ItemImage { Data = img })],
+			ReleaseDate = itemInfo.ReleaseDate,
+			Genre = itemInfo.Genre
 		};
 
 		await itemRepository.AddItemAsync(item);

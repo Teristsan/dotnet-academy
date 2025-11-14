@@ -19,8 +19,16 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 		builder.Entity<Item>(item =>
 		{
 			item.HasKey(i => i.Id);
-			item.Property(i => i.Name).IsRequired().HasMaxLength(100);
+			item.Property(i => i.MediaType).IsRequired().HasMaxLength(40);
+			item.Property(i => i.Title).IsRequired().HasMaxLength(200);
 			item.Property(i => i.Description).IsRequired().HasMaxLength(255);
+			item.Property(i => i.Poster).IsRequired().HasColumnType("varbinary(max)");
+			item.Property(i => i.Rating).HasDefaultValue(0);
+
+			item.HasMany(i => i.Images)
+				.WithOne(img => img.Item)
+				.HasForeignKey(img => img.ItemId)
+				.OnDelete(DeleteBehavior.Cascade);
 		});
 
 		// Seed roles with required static properties

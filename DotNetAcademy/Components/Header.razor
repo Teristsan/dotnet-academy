@@ -2,9 +2,11 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Identity
+@using DotNetAcademy.Persistence.Constants
 @inject NavigationManager NavigationManager
 @inject SignInManager<ApplicationUser> SignInManager
 @rendermode InteractiveServer
+@implements IDisposable
 
 <header class="app-header">
     <div class="container-fluid px-0">
@@ -16,6 +18,20 @@
                 <p class="m-0">Series</p>
             </div>
             <div>
+                @if (!CheckIfInAddItemPage())
+                {
+                    <AuthorizeView Roles="Admin">
+                        <Authorized>
+                            <button class="btn btn-dark btn-sm p-1 me-2 mt-2 mb-2"
+                                    @onclick="NavigateToAddItem"
+                                    type="button"
+                                    title="Add Item (Admin)"
+                                    aria-label="Add Item">
+                                Add Item
+                            </button>
+                        </Authorized>
+                    </AuthorizeView>
+                }
                 <button class="btn btn-outline-secondary btn-sm p-1 me-2 mt-2 mb-2"
                         @onclick="Logout"
                         type="button"
@@ -29,8 +45,33 @@
 </header>
 
 @code {
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+
     private void Logout()
     {
         NavigationManager.NavigateTo("/logout", forceLoad: true);
+    }
+
+    private void NavigateToAddItem()
+    {
+        NavigationManager.NavigateTo("/additem");
+    }
+
+    private bool CheckIfInAddItemPage()
+    {
+        return NavigationManager.Uri.EndsWith("/additem", StringComparison.OrdinalIgnoreCase);
     }
 }

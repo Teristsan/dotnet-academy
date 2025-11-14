@@ -9,9 +9,12 @@ public static class ItemMappingExtensions
 	{
 		return new ItemModel
 		{
-			Id = item.Id,
-			Name = item.Name,
-			Description = item.Description,
+			MediaType = item.MediaType!,
+			Title = item.Title!,
+			Description = item.Description!,
+			Poster = item.Poster,
+			Rating = item.Rating,
+			Images = item.Images.Select(img => img.Data).ToList()
 		};
 	}
 
