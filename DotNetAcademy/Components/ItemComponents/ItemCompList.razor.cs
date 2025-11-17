@@ -24,7 +24,7 @@ public partial class ItemCompList
 
 	public int TotalPages { get; set; }
 
-	public List<GetItemModel> Items { get; set; } = new();
+	public List<ItemModel> Items { get; set; } = new();
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -38,7 +38,7 @@ public partial class ItemCompList
 		var totalItemsCount = await ItemService.CountItemsAsync();
 
 		TotalPages = (int)Math.Ceiling((double)totalItemsCount / ItemsPerPage);
-		Items = totalItems?.ToModelList() ?? new List<GetItemModel>();
+		Items = totalItems?.ToModelList() ?? new List<ItemModel>();
 	}
 
 	private async Task GetPageItems(int page)
@@ -55,6 +55,11 @@ public partial class ItemCompList
 		MediaType = mediaType;
 		CurrentPage = 1;
 		await LoadPageItemList(MediaType);
+	}
+
+	private void NavigateToItemDetail(int itemId)
+	{
+		NavigationManager.NavigateTo($"/item/{itemId}");
 	}
 
 	protected override async void OnInitialized()

@@ -17,6 +17,7 @@ public class ItemService(IItemRepository itemRepository) : IItemService
 	{
 		var items = await itemRepository.GetPaginatedItemsAsync(pageNumber, pageSize, mediaType);
 		var pageItems = items.Select(item => new ItemInfo(
+			item.Id,
 			item.Poster,
 			item.Title,
 			item.ReleaseDate,
@@ -27,7 +28,25 @@ public class ItemService(IItemRepository itemRepository) : IItemService
 		return new ListItemsInfo(pageItems);
 	}
 
-	public async Task AddItemAsync(AddItemInfo itemInfo)
+    public async Task<ListItemDetails> GetItemDetailsByIdAsync(int id)
+    {
+        var item = await itemRepository.GetItemByIdAsync(id);
+		var pageItem = new ListItemDetails(
+			item.Id,
+			item.MediaType,
+			item.Title,
+			item.Poster,
+			item.Description,
+			item.Rating,
+            item.Images.Select(img => img.Data).ToList(),
+			item.ReleaseDate,
+			item.Genre
+		);
+
+		return pageItem;
+    }
+
+    public async Task AddItemAsync(AddItemInfo itemInfo)
 	{
 		var item = new Item()
 		{
@@ -35,7 +54,7 @@ public class ItemService(IItemRepository itemRepository) : IItemService
 			Title = itemInfo.Title,
 			Description = itemInfo.Description,
 			Poster = itemInfo.Poster,
-			Rating = (int)itemInfo.Rating,
+			Rating = itemInfo.Rating,
 			Images = [..itemInfo.Images.Select(img => new ItemImage { Data = img })],
 			ReleaseDate = itemInfo.ReleaseDate,
 			Genre = itemInfo.Genre

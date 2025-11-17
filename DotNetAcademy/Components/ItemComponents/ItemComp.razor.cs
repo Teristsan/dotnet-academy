@@ -6,7 +6,7 @@ namespace DotNetAcademy.Components.ItemComponents;
 public partial class ItemComp
 {
 	[Parameter]
-	public GetItemModel Item { get; set; } = new()
+	public ItemModel Item { get; set; } = new()
 	{
 		Title = string.Empty,
 		Poster = Array.Empty<byte>(),

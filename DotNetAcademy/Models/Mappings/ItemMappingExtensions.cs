@@ -7,11 +7,12 @@ namespace DotNetAcademy.Models.Mappings;
 
 public static class ItemMappingExtensions
 {
-	public static List<GetItemModel> ToModelList(this ListItemsInfo items)
+	public static List<ItemModel> ToModelList(this ListItemsInfo items)
 	{
 		return [..items.PageItems
-			.Select(item => new GetItemModel
+			.Select(item => new ItemModel
 			{
+				Id	= item.Id,
 				Poster = item.Poster,
 				Title = item.Title,
 				ReleaseDate = item.ReleaseDate,

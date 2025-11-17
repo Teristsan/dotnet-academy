@@ -1,3 +1,3 @@
 ﻿namespace DotNetAcademy.Services.Dto;
 
-public record ItemInfo(byte[] Poster, string Title, DateOnly ReleaseDate, string Genre, decimal Rating);
+public record ItemInfo(int Id, byte[] Poster, string Title, DateOnly ReleaseDate, string Genre, decimal Rating);

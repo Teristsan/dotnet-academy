@@ -7,6 +7,7 @@ public interface IItemService
 {
 	Task<int> CountItemsAsync();
 	Task<ListItemsInfo> GetPaginatedItemsAsync(int pageNumber, int pageSize, string mediaType);
-	Task AddItemAsync(AddItemInfo itemInfo);
+	Task<ListItemDetails> GetItemDetailsByIdAsync(int id);
+    Task AddItemAsync(AddItemInfo itemInfo);
 	Task DeleteItemAsync(int id);
 }

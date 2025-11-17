@@ -10,12 +10,13 @@
         <div class="d-flex justify-content-start mb-3 gap-2">
             <button class="btn btn-dark m-0 @(MediaType == MediaTypeEnum.Movie ? "disabled" : "")" @onclick="async () => { await ChangeMediaType(MediaTypeEnum.Movie); }">Movies</button>
             <button class="btn btn-dark m-0 @(MediaType == MediaTypeEnum.Series ? "disabled" : "")" @onclick="async () => { await ChangeMediaType(MediaTypeEnum.Series); }">Series</button>
+            <button class="btn btn-dark m-0 @(MediaType == MediaTypeEnum.Anime ? "disabled" : "")" @onclick="async () => { await ChangeMediaType(MediaTypeEnum.Anime); }">Anime</button>
         </div>
         <div>
             @if (isItemAdditionSuccessful)
             {
                 <div class="alert alert-success">
-                    Item addition was successful!
+                    Master has given Dobby a sock!
                 </div>
             }
         </div>
@@ -31,7 +32,7 @@
         <div class="row mb-4 justify-content-center">
             @foreach (var item in Items)
             {
-                <div class="col-3 mb-3">
+                <div class="col-3 mb-3" @onclick="() => NavigateToItemDetail(item.Id)">
                     <ItemComp Item="@item" />
                 </div>
             }

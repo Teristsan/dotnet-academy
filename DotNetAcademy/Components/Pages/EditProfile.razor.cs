@@ -15,7 +15,7 @@ public partial class EditProfile
     [Inject] IApplicationUserService? UserService { get; set; }
     
     [SupplyParameterFromForm]
-    private EditProfileModel ProfileModel { get; set; } = new();
+    private ProfileFormModel ProfileModel { get; set; } = new();
 
     private const long MaxFileSize = 5 * 1024 * 1024;
     private string? fileUploadMessage;

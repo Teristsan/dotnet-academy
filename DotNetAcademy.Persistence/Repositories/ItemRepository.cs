@@ -10,7 +10,11 @@ public class ItemRepository(IDbContextFactory<ApplicationDbContext> dbContextFac
 	{
 		using var context = dbContextFactory.CreateDbContext();
 
-		var item = await context.Items.FirstOrDefaultAsync(item => item.Id == id);
+		var item = await context.Items
+			.Include(item => item.Images)
+			.AsSplitQuery()
+			.AsNoTracking()
+			.FirstOrDefaultAsync(item => item.Id == id);
 
 		return item;
 	}
@@ -19,7 +23,9 @@ public class ItemRepository(IDbContextFactory<ApplicationDbContext> dbContextFac
 	{
 		using var context = dbContextFactory.CreateDbContext();
 
-		var items = await context.Items.ToListAsync();
+		var items = await context.Items
+			.AsNoTracking()
+			.ToListAsync();
 		return items;
 	}
 
@@ -31,6 +37,7 @@ public class ItemRepository(IDbContextFactory<ApplicationDbContext> dbContextFac
 			.Where(item => item.MediaType == mediaType)
 			.Skip((pageNumber - 1) * pageSize)
 			.Take(pageSize)
+			.AsNoTracking()
 			.ToListAsync();
 
 		return items;

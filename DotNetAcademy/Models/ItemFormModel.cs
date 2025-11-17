@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DotNetAcademy.Models;
 
-public class AddItemModel
+public class ItemFormModel
 {
 	[Required(ErrorMessage = "Media type is required.")]
 	public string? MediaType { get; set; }

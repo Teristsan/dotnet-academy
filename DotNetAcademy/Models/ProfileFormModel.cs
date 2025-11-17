@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DotNetAcademy.Models;
 
-public class EditProfileModel
+public class ProfileFormModel
 {
     [Required(ErrorMessage = "First name is required")]
     [StringLength(20, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 20 characters")]
