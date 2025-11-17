@@ -1,74 +1,56 @@
 ﻿@using DotNetAcademy.Persistence.Entities
+@using DotNetAcademy.Services.ApplicationUserService
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Identity
-@using DotNetAcademy.Persistence.Constants
-@inject NavigationManager NavigationManager
-@inject SignInManager<ApplicationUser> SignInManager
 @rendermode InteractiveServer
-@implements IDisposable
 
 <header class="app-header">
-    <div class="container-fluid px-0">
+    <div class="container-fluid p-3">
         <div class="d-flex flex-row justify-content-between align-items-center">
             <div class="d-flex flex-row justify-content-evenly align-items-center gap-3">
-                <h2 class="m-0">Flickpickd</h2>
+                <NavLink href="/" class="fs-1 text-decoration-none m-0" style="color: black" Match="NavLinkMatch.All">
+                    Flickpickd
+                </NavLink>
             </div>
-            <div>
-                @if (!CheckIfInAddItemPage())
-                {
-                    <AuthorizeView Roles="Admin">
-                        <Authorized>
-                            <button class="btn btn-dark btn-sm p-1 me-2 mt-2 mb-2"
-                                    @onclick="NavigateToAddItem"
-                                    type="button"
-                                    title="Add Item (Admin)"
-                                    aria-label="Add Item">
-                                Add Item
-                            </button>
-                        </Authorized>
-                    </AuthorizeView>
-                }
-                <button class="btn btn-outline-secondary btn-sm p-1 me-2 mt-2 mb-2"
-                        @onclick="Logout"
-                        type="button"
-                        title="Sign out"
-                        aria-label="Sign out">
-                    Sign out
+            <div class="dropdown me-1">
+                <button class="btn btn-dark p-0 border-0 rounded-circle"
+                        type="button" 
+                        data-bs-toggle="dropdown" 
+                        aria-expanded="false"
+                        title="Profile menu"
+                        aria-label="Profile menu">
+                    <img src="@profileImageUrl" 
+                         alt="profile-pic" 
+                         class="rounded-circle" 
+                         style="width: 40px; height: 40px; object-fit: cover;" />
                 </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <button class="dropdown-item" 
+                                @onclick="NavigateToEditProfile" 
+                                type="button">
+                            Edit Profile
+                        </button>
+                    </li>
+                    <AuthorizeView Roles="Admin">
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <NavLink class="dropdown-item" href="/additem">
+                                Add Item
+                            </NavLink>
+                        </li>
+                    </AuthorizeView>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                        <button class="dropdown-item" 
+                                @onclick="Logout" 
+                                type="button">
+                            Logout
+                        </button>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </header>
-
-@code {
-    protected override void OnInitialized()
-    {
-        NavigationManager.LocationChanged += OnLocationChanged;
-    }
-
-    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
-    {
-        StateHasChanged();
-    }
-
-    public void Dispose()
-    {
-        NavigationManager.LocationChanged -= OnLocationChanged;
-    }
-
-    private void Logout()
-    {
-        NavigationManager.NavigateTo("/logout", forceLoad: true);
-    }
-
-    private void NavigateToAddItem()
-    {
-        NavigationManager.NavigateTo("/additem");
-    }
-
-    private bool CheckIfInAddItemPage()
-    {
-        return NavigationManager.Uri.EndsWith("/additem", StringComparison.OrdinalIgnoreCase);
-    }
-}

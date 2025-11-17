@@ -1,0 +1,121 @@
+﻿@page "/editprofile"
+@using DotNetAcademy.Models
+@rendermode InteractiveServer
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="card-title text-center mb-2">Edit Profile</h2>
+                    <p class="text-center text-muted mb-4">Manage your account settings and preferences</p>
+
+                    <EditForm Model="@ProfileModel" OnValidSubmit="@HandleValidSubmit" FormName="EditProfileForm">
+                        <DataAnnotationsValidator />
+
+                        <!-- Profile Picture Section -->
+                        <div class="text-center mb-4 pb-4 border-bottom">
+                            <div class="position-relative d-inline-block">
+                                <img src="@GetProfileImageSource()"
+                                     alt="Profile Picture" 
+                                     class="rounded-circle mb-3" 
+                                     style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #dee2e6;" />
+                            </div>
+                            <div>
+                                <label class="form-label fw-semibold">Profile Picture</label>
+                                <p class="text-muted small mb-2">PNG, JPG up to 5MB</p>
+                                <label for="profileImageUpload" class="btn btn-dark" style="cursor: pointer;">
+                                    Upload New Photo
+                                </label>
+                                <InputFile id="profileImageUpload"
+                                           OnChange="@HandleFileSelected"
+                                           accept="image/png,image/jpeg,image/jpg"
+                                           style="display: none;" />
+                                @if (!string.IsNullOrEmpty(fileUploadMessage))
+                                {
+                                    <div class="alert @(isFileUploadError ? "alert-danger" : "alert-success") alert-dismissible fade show mt-2" role="alert">
+                                        @fileUploadMessage
+                                        <button type="button" class="btn-close" @onclick="@(() => fileUploadMessage = null)"></button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Account Information Section -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">Account Information</h5>
+                            <p class="text-muted small mb-3">Update your account details here</p>
+
+                            <!-- First Name and Last Name Row -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <InputText @bind-Value="ProfileModel.FirstName" 
+                                             class="form-control" 
+                                             id="firstName" 
+                                             placeholder="John" />
+                                    <ValidationMessage For="@(() => ProfileModel.FirstName)" class="text-danger small" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <InputText @bind-Value="ProfileModel.LastName" 
+                                             class="form-control" 
+                                             id="lastName" 
+                                             placeholder="Doe" />
+                                    <ValidationMessage For="@(() => ProfileModel.LastName)" class="text-danger small" />
+                                </div>
+                            </div>
+
+                            <!-- Username -->
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <InputText @bind-Value="ProfileModel.UserName" 
+                                         class="form-control" 
+                                         id="username" 
+                                         placeholder="moviefan123" />
+                                <ValidationMessage For="@(() => ProfileModel.UserName)" class="text-danger small" />
+                            </div>
+
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <InputText @bind-Value="ProfileModel.Email" 
+                                         type="email" 
+                                         class="form-control" 
+                                         id="email" 
+                                         placeholder="john.doe@example.com" />
+                                <ValidationMessage For="@(() => ProfileModel.Email)" class="text-danger small" />
+                            </div>
+
+                            <!-- Description -->
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <InputTextArea @bind-Value="ProfileModel.Description" 
+                                             class="form-control" 
+                                             id="description" 
+                                             rows="4" 
+                                             placeholder="Love watching movies, especially sci-fi and thrillers!" />
+                                <ValidationMessage For="@(() => ProfileModel.Description)" class="text-danger small" />
+                            </div>
+                        </div>
+
+                        <!-- Update Message Section -->
+                        @if (!string.IsNullOrEmpty(updateMessage))
+                        {
+                            <div class="alert @(isUpdateError ? "alert-danger" : "alert-success") alert-dismissible fade show" role="alert">
+                                @updateMessage
+                                <button type="button" class="btn-close" @onclick="@(() => updateMessage = null)"></button>
+                            </div>
+                        }
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                            <button type="button" class="btn btn-secondary" @onclick="HandleCancel">Cancel</button>
+                            <button type="submit" class="btn btn-dark">Save Changes</button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
