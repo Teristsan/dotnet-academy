@@ -108,7 +108,7 @@ The application comes with pre-seeded user accounts for testing:
 
 ## 🏗 Architecture
 
-The application follows Clean Architecture principles:
+The application follows N-tier Architecture principles:
 
 - **Presentation Layer**: `DotNetAcademy` - Blazor Server components and pages
 - **Business Logic**: `DotNetAcademy.Services` - Application services
