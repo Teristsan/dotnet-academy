@@ -38,7 +38,7 @@ ToDo: Will add more when we have the finished pages
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url> # ToDo : Add when we go to github
+git clone https://github.com/Teristsan/dotnet-academy.git
 cd dotnet-academy
 ```
 
