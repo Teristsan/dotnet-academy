@@ -10,13 +10,10 @@ public partial class Header
 {
     [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
-
     [Inject]
     private SignInManager<ApplicationUser> SignInManager { get; set; } = default!;
-
     [Inject]
     private AuthenticationStateProvider AuthenticationStateProvider { get; set; } = default!;
-
     [Inject]
     private IApplicationUserService ProfilePictureService { get; set; } = default!;
 

@@ -10,21 +10,19 @@ public partial class ItemCompList
 {
 	[Inject]
 	private IItemService ItemService { get; set; } = null!;
-
 	[Inject]
-	NavigationManager NavigationManager { get; set; } = null!;
+	private NavigationManager NavigationManager { get; set; } = null!;
 
 	[Parameter]
 	public MediaTypeEnum MediaType { get; set; } = MediaTypeEnum.Movie;
-
-	public int CurrentPage { get; set; } = 1;
-	public int ItemsPerPage { get; set; } = 8;
+	
+	private List<ItemModel> Items { get; set; } = new();
+	private int TotalPages { get; set; }
+	private int CurrentPage { get; set; } = 1;
+	private int ItemsPerPage { get; set; } = 8;
 
 	private bool isItemAdditionSuccessful = false;
-
-	public int TotalPages { get; set; }
-
-	public List<ItemModel> Items { get; set; } = new();
+	private bool isItemDeletionSuccessful = false;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -67,12 +65,21 @@ public partial class ItemCompList
 		var uri = new Uri(NavigationManager.Uri);
 		var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
 		isItemAdditionSuccessful = query["success"] == "1";
+		isItemDeletionSuccessful = query["success_delete"] == "1";
 
 		if (isItemAdditionSuccessful)
 		{
 			// Wait 4 seconds, then hide the message
 			await Task.Delay(4000);
 			isItemAdditionSuccessful = false;
+			StateHasChanged();
+		}
+
+		if (isItemDeletionSuccessful)
+		{
+			// Wait 4 seconds, then hide the message
+			await Task.Delay(4000);
+			isItemDeletionSuccessful = false;
 			StateHasChanged();
 		}
 	}

@@ -10,9 +10,12 @@ namespace DotNetAcademy.Components.Pages;
 
 public partial class EditProfile
 {
-    [Inject] AuthenticationStateProvider? AuthStateProvider { get; set; }
-    [Inject] NavigationManager? NavigationManager { get; set; }
-    [Inject] IApplicationUserService? UserService { get; set; }
+    [Inject]
+    private AuthenticationStateProvider? AuthStateProvider { get; set; }
+    [Inject] 
+    private NavigationManager? NavigationManager { get; set; }
+    [Inject] 
+    private IApplicationUserService? UserService { get; set; }
     
     [SupplyParameterFromForm]
     private ProfileFormModel ProfileModel { get; set; } = new();

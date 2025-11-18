@@ -1,6 +1,7 @@
 ﻿@page "/item/{Id:int}"
 @using DotNetAcademy.Models
 @using DotNetAcademy.Persistence.Entities
+@using Microsoft.AspNetCore.Components.Authorization
 @rendermode InteractiveServer
 
 <PageTitle>@(itemDetails?.Title ?? "Item Details")</PageTitle>
@@ -30,7 +31,18 @@ else if (itemDetails != null)
                 <!-- Details Section -->
                 <div class="col-8 border rounded">
                     <div class="mb-3">
-                        <h1 class="display-5 fw-bold">@itemDetails.Title</h1>
+                        <div class="d-flex justify-content-between p-2 ps-0">
+                            <h1 class="fw-bold">@itemDetails.Title</h1>
+                            @if (isDeletedSuccessfully)
+                            {
+                                <div class="alert alert-success" role="alert">
+                                    Item deleted successfully.
+                                </div>
+                            }
+                            <AuthorizeView Roles="Admin">
+                                <button class="btn btn-danger" @onclick="() => DeleteItem(itemDetails.Id)"><i class="bi bi-trash"></i></button>
+                            </AuthorizeView>
+                        </div>
                         <span class="badge bg-dark me-2">@itemDetails.MediaType</span>
                     </div>
 

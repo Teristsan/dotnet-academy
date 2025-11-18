@@ -11,10 +11,13 @@ public partial class ItemDetail
 
     [Inject]
     private IItemService ItemService { get; set; } = default!;
+    [Inject]
+    private NavigationManager NavigationManager { get; set; } = default!;
 
-    private ItemDetailsModel? itemDetails;
+	private ItemDetailsModel? itemDetails;
     private bool isLoading = true;
     private int currentImageIndex = 0;
+    private bool isDeletedSuccessfully = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -85,5 +88,12 @@ public partial class ItemDetail
 	private void NextImage()
     {
         currentImageIndex = (currentImageIndex + 1) % itemDetails!.Images.Count;
+	}
+
+    private async Task DeleteItem(int id)
+    {
+        await ItemService.DeleteItemAsync(id);
+
+		NavigationManager.NavigateTo("/?success_delete=1");
 	}
 }
