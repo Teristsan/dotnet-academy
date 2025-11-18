@@ -98,12 +98,12 @@ The application comes with pre-seeded user accounts for testing:
 
 #### Administrator Account
 - **Email**: `admin@dotnetacademy.com`
-- **Password**: Check the seeded password in `ApplicationDbContext`
+- **Password**: Admin1
 - **Role**: Admin
 
 #### Regular User Account
 - **Email**: `user@dotnetacademy.com`
-- **Password**: Check the seeded password in `ApplicationDbContext`
+- **Password**: User12
 - **Role**: User
 
 ## 🏗 Architecture
