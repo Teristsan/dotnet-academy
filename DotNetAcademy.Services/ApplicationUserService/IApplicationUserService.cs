@@ -4,7 +4,7 @@ namespace DotNetAcademy.Services.ApplicationUserService;
 
 public interface IApplicationUserService
 {
-    Task<User?> GetUserByIdAsync(string id);
-    Task UpdateUserFields(User user, string userId);
+    Task<UserInfo?> GetUserByIdAsync(string id);
+    Task UpdateUserFields(UserInfo user, string userId);
     Task<ProfilePicture> GetProfilePicture(string userId);
 }

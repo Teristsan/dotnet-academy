@@ -183,7 +183,7 @@ namespace DotNetAcademy.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", (string)null);
                 });
 
             modelBuilder.Entity("DotNetAcademy.Persistence.Entities.ItemImage", b =>
@@ -205,7 +205,7 @@ namespace DotNetAcademy.Persistence.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("ItemImage");
+                    b.ToTable("ItemImage", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

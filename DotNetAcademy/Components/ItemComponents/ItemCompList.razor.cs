@@ -26,14 +26,30 @@ public partial class ItemCompList
 
 	protected override async Task OnInitializedAsync()
 	{
+		var uri = new Uri(NavigationManager.Uri);
+		var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+		isItemAdditionSuccessful = query["success"] == "1";
+		isItemDeletionSuccessful = query["success_delete"] == "1";
+
 		await LoadPageItemList(MediaType);
+
+		if (isItemAdditionSuccessful || isItemDeletionSuccessful)
+		{
+			_ = Task.Run(async () =>
+			{
+				await Task.Delay(4000);
+				isItemAdditionSuccessful = false;
+				isItemDeletionSuccessful = false;
+				await InvokeAsync(StateHasChanged);
+			});
+		}
 	}
 
 	private async Task LoadPageItemList(MediaTypeEnum mediaType)
 	{
 		var mediaTypeString = mediaType.ToString("G");
 		var totalItems = await ItemService.GetPaginatedItemsAsync(CurrentPage, ItemsPerPage, mediaTypeString);
-		var totalItemsCount = await ItemService.CountItemsAsync();
+		var totalItemsCount = await ItemService.CountItemsAsync(mediaTypeString);
 
 		TotalPages = (int)Math.Ceiling((double)totalItemsCount / ItemsPerPage);
 		Items = totalItems?.ToModelList() ?? new List<ItemModel>();
@@ -58,29 +74,5 @@ public partial class ItemCompList
 	private void NavigateToItemDetail(int itemId)
 	{
 		NavigationManager.NavigateTo($"/item/{itemId}");
-	}
-
-	protected override async void OnInitialized()
-	{
-		var uri = new Uri(NavigationManager.Uri);
-		var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
-		isItemAdditionSuccessful = query["success"] == "1";
-		isItemDeletionSuccessful = query["success_delete"] == "1";
-
-		if (isItemAdditionSuccessful)
-		{
-			// Wait 4 seconds, then hide the message
-			await Task.Delay(4000);
-			isItemAdditionSuccessful = false;
-			StateHasChanged();
-		}
-
-		if (isItemDeletionSuccessful)
-		{
-			// Wait 4 seconds, then hide the message
-			await Task.Delay(4000);
-			isItemDeletionSuccessful = false;
-			StateHasChanged();
-		}
 	}
 }

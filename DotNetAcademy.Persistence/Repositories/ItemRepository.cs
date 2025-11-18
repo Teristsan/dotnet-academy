@@ -43,10 +43,12 @@ public class ItemRepository(IDbContextFactory<ApplicationDbContext> dbContextFac
 		return items;
 	}
 
-	public async Task<int> CountItemsAsync()
+	public async Task<int> CountItemsAsync(string mediaTypeString)
 	{
 		using var context = dbContextFactory.CreateDbContext();
-		return await context.Items.CountAsync();
+		return await context.Items
+			.Where(item => item.MediaType == mediaTypeString)
+			.CountAsync();
 	}
 
 	public async Task AddItemAsync(Item item)

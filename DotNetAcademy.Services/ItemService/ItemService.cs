@@ -7,9 +7,9 @@ namespace DotNetAcademy.Services.ItemsService;
 
 public class ItemService(IItemRepository itemRepository) : IItemService
 {
-	public async Task<int> CountItemsAsync()
+	public async Task<int> CountItemsAsync(string mediaTypeString)
 	{
-		var itemsCount = await itemRepository.CountItemsAsync();
+		var itemsCount = await itemRepository.CountItemsAsync(mediaTypeString);
 		return itemsCount;
 	}
 

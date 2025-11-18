@@ -134,15 +134,14 @@ public partial class EditProfile
         {
             try
             {
-                var userDto = new User
-                {
-                    FirstName = ProfileModel.FirstName,
-                    LastName = ProfileModel.LastName,
-                    UserName = ProfileModel.UserName,
-                    Email = ProfileModel.Email,
-                    Description = ProfileModel.Description,
-                    ProfileImage = ProfileModel.ProfileImage
-                };
+                var userDto = new UserInfo(
+                    FirstName: ProfileModel.FirstName,
+                    LastName: ProfileModel.LastName,
+                    UserName: ProfileModel.UserName,
+                    Email: ProfileModel.Email,
+                    Description: ProfileModel.Description,
+                    ProfileImage: ProfileModel.ProfileImage
+                );
 
                 await UserService!.UpdateUserFields(userDto, userId);
                 

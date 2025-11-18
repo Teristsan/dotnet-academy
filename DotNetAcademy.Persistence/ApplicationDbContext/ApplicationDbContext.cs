@@ -28,6 +28,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 			item.HasMany(i => i.Images)
 				.WithOne(img => img.Item)
 				.HasForeignKey(img => img.ItemId)
+				.IsRequired()
 				.OnDelete(DeleteBehavior.Cascade);
 		});
 

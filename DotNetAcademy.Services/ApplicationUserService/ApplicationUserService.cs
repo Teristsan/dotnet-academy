@@ -5,27 +5,26 @@ namespace DotNetAcademy.Services.ApplicationUserService;
 
 public class ApplicationUserService(IApplicationUserRepository userRepo) : IApplicationUserService
 {
-    public async Task<User?> GetUserByIdAsync(string id)
+    public async Task<UserInfo?> GetUserByIdAsync(string id)
     {
         var userEntity = await userRepo.GetUserByIdAsync(id);
 
         if (userEntity == null)
             return null;
 
-        var user = new User
-        {
-            FirstName = userEntity.FirstName,
-            LastName = userEntity.LastName,
-            UserName = userEntity.UserName ?? string.Empty,
-            Email = userEntity.Email ?? string.Empty,
-            Description = userEntity.Description,
-            ProfileImage = userEntity.ProfileImage
-        };
+        var user = new UserInfo(
+            FirstName: userEntity.FirstName,
+            LastName: userEntity.LastName,
+            UserName: userEntity.UserName ?? string.Empty,
+            Email: userEntity.Email ?? string.Empty,
+            Description: userEntity.Description,
+            ProfileImage: userEntity.ProfileImage
+        );
 
         return user;
     }
 
-    public async Task UpdateUserFields(User user, string userId)
+    public async Task UpdateUserFields(UserInfo user, string userId)
     {
         // Use user.Id instead of user.UserName
         var existingUser = await userRepo.GetUserByIdAsync(userId);
@@ -59,9 +58,6 @@ public class ApplicationUserService(IApplicationUserRepository userRepo) : IAppl
     {
         var userEntity = await userRepo.GetUserByIdAsync(userId);
 
-        return new ProfilePicture
-        {
-            ProfileImage = userEntity?.ProfileImage
-        };
+        return new ProfilePicture(ProfileImage: userEntity?.ProfileImage);
     }
 }
