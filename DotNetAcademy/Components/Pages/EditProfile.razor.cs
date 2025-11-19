@@ -15,7 +15,7 @@ public partial class EditProfile
     [Inject] 
     private NavigationManager? NavigationManager { get; set; }
     [Inject] 
-    private IApplicationUserService? UserService { get; set; }
+    private IApplicationUserService? ApplicationUserService { get; set; }
     
     [SupplyParameterFromForm]
     private ProfileFormModel ProfileModel { get; set; } = new();
@@ -43,7 +43,7 @@ public partial class EditProfile
             
         if (!string.IsNullOrEmpty(userId))
         {
-            var userDto = await UserService!.GetUserByIdAsync(userId);
+            var userDto = await ApplicationUserService!.GetUserByIdAsync(userId);
                 
             if (userDto != null)
             {
@@ -143,7 +143,7 @@ public partial class EditProfile
                     ProfileImage: ProfileModel.ProfileImage
                 );
 
-                await UserService!.UpdateUserFields(userDto, userId);
+                await ApplicationUserService!.UpdateUserFields(userDto, userId);
                 
                 updateMessage = "Profile updated successfully!";
                 isUpdateError = false;
