@@ -121,7 +121,8 @@ The application follows N-tier Architecture principles:
 - **Presentation Layer**: `DotNetAcademy` - Blazor Server components and pages
 - **Business Logic**: `DotNetAcademy.Services` - Application services
 - **Data Access**: `DotNetAcademy.Persistence` - EF Core, repositories, and entities
----
 
+## Basic concepts presentation
+[.NET Academy presentation](assets/DotNetAcademy.pptx)
 
 
