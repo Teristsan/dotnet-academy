@@ -89,11 +89,4 @@ public partial class ItemDetail
     {
         currentImageIndex = (currentImageIndex + 1) % itemDetails!.Images.Count;
 	}
-
-    private async Task DeleteItem(int id)
-    {
-        await ItemService.DeleteItemAsync(id);
-
-		NavigationManager.NavigateTo("/?success_delete=1");
-	}
 }

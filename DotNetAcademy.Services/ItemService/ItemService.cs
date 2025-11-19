@@ -62,12 +62,4 @@ public class ItemService(IItemRepository itemRepository) : IItemService
 
 		await itemRepository.AddItemAsync(item);
 	}
-
-	public async Task DeleteItemAsync(int id)
-	{
-		var item = await itemRepository.GetItemByIdAsync(id);
-
-		if (item != null)
-			await itemRepository.DeleteItemAsync(item);
-	}
 }

@@ -39,9 +39,6 @@ else if (itemDetails != null)
                                     Item deleted successfully.
                                 </div>
                             }
-                            <AuthorizeView Roles="Admin">
-                                <button class="btn btn-danger" @onclick="() => DeleteItem(itemDetails.Id)"><i class="bi bi-trash"></i></button>
-                            </AuthorizeView>
                         </div>
                         <span class="badge bg-dark me-2">@itemDetails.MediaType</span>
                     </div>

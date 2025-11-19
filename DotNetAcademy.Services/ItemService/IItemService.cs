@@ -9,5 +9,4 @@ public interface IItemService
 	Task<ListItemsInfo> GetPaginatedItemsAsync(int pageNumber, int pageSize, string mediaType);
 	Task<ListItemDetails> GetItemDetailsByIdAsync(int id);
     Task AddItemAsync(AddItemInfo itemInfo);
-	Task DeleteItemAsync(int id);
 }
