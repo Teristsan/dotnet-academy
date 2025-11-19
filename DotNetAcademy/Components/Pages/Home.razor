@@ -1,18 +1,7 @@
 ﻿@page "/"
-@using DotNetAcademy.Components.ItemComponents
-@using DotNetAcademy.Enums
-@using Microsoft.AspNetCore.Authorization
-@attribute [Authorize]
-@rendermode InteractiveServer
 
-<div class="d-flex flex-column justify-content-center align-items-center">
-    <PageTitle>Home</PageTitle>
+<PageTitle>Home</PageTitle>
 
-    <ItemCompList MediaType="@mediaType" />
+<h1>Hello, world!</h1>
 
-    
-</div>
-
-@code {
-    private MediaTypeEnum mediaType = MediaTypeEnum.Movie;
-}
+Welcome to your new app.
