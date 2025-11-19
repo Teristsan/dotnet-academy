@@ -7,45 +7,6 @@ namespace DotNetAcademy.Services.ItemsService;
 
 public class ItemService(IItemRepository itemRepository) : IItemService
 {
-	public async Task<int> CountItemsAsync(string mediaTypeString)
-	{
-		var itemsCount = await itemRepository.CountItemsAsync(mediaTypeString);
-		return itemsCount;
-	}
-
-	public async Task<ListItemsInfo> GetPaginatedItemsAsync(int pageNumber, int pageSize, string mediaType)
-	{
-		var items = await itemRepository.GetPaginatedItemsAsync(pageNumber, pageSize, mediaType);
-		var pageItems = items.Select(item => new ItemInfo(
-			item.Id,
-			item.Poster,
-			item.Title,
-			item.ReleaseDate,
-			item.Genre,
-			item.Rating
-		)).ToList();
-
-		return new ListItemsInfo(pageItems);
-	}
-
-    public async Task<ListItemDetails> GetItemDetailsByIdAsync(int id)
-    {
-        var item = await itemRepository.GetItemByIdAsync(id);
-		var pageItem = new ListItemDetails(
-			item.Id,
-			item.MediaType,
-			item.Title,
-			item.Poster,
-			item.Description,
-			item.Rating,
-            item.Images.Select(img => img.Data).ToList(),
-			item.ReleaseDate,
-			item.Genre
-		);
-
-		return pageItem;
-    }
-
     public async Task AddItemAsync(AddItemInfo itemInfo)
 	{
 		var item = new Item()
@@ -61,13 +22,5 @@ public class ItemService(IItemRepository itemRepository) : IItemService
 		};
 
 		await itemRepository.AddItemAsync(item);
-	}
-
-	public async Task DeleteItemAsync(int id)
-	{
-		var item = await itemRepository.GetItemByIdAsync(id);
-
-		if (item != null)
-			await itemRepository.DeleteItemAsync(item);
 	}
 }

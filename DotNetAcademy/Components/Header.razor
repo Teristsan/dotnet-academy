@@ -26,13 +26,6 @@
                          style="width: 40px; height: 40px; object-fit: cover;" />
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                        <button class="dropdown-item" 
-                                @onclick="NavigateToEditProfile" 
-                                type="button">
-                            Edit Profile
-                        </button>
-                    </li>
                     <AuthorizeView Roles="Admin">
                         <li><hr class="dropdown-divider" /></li>
                         <li>
