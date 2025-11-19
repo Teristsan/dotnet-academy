@@ -13,7 +13,7 @@ public partial class Header
     [Inject]
     private AuthenticationStateProvider AuthenticationStateProvider { get; set; } = default!;
     [Inject]
-    private IApplicationUserService ProfilePictureService { get; set; } = default!;
+    private IApplicationUserService ApplicationUserService { get; set; } = default!;
 
     private string profileImageUrl = "/images/default-avatar.png";
 
@@ -33,7 +33,7 @@ public partial class Header
 
             if (!string.IsNullOrEmpty(userId))
             {
-                var profilePicture = await ProfilePictureService.GetProfilePicture(userId);
+                var profilePicture = await ApplicationUserService.GetProfilePicture(userId);
 
                 if (profilePicture?.ProfileImage != null)
                 {
