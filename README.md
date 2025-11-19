@@ -15,7 +15,11 @@ A modern media catalog application built with .NET 9 and Blazor Server. Flickpic
 ### Login Page
 ![Login Page](assets/login-page.png)
 
-ToDo: Will add more when we have the finished pages 
+### Item Details
+![Item Details](assets/item-details.png)
+
+### Edit Profile
+![Edit Profile](assets/edit-profile.png)
 
 ## 🛠 Tech Stack
 
