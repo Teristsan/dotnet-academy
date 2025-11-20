@@ -55,8 +55,8 @@ cd dotnet-academy
 Run the following Docker command to start a SQL Server instance:
 
 ```bash
-docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Picka123!" \
-  -p 1436:1433 --name sqlserver-dev \
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Picka123!"
+  -p 1436:1433 --name sqlserver-dev
   -d mcr.microsoft.com/mssql/server:2022-latest
 ```
 
