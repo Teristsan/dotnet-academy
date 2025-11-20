@@ -61,32 +61,37 @@ docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Picka123!" \
 ```
 
 ### 3. Restore Packages
+  **For VS Code**
+  ```bash
+  dotnet restore
+  ```
 
-```bash
-dotnet restore
-```
+  **For Visual Studio**\
+  Build the project and the dependencies will be automatically restored.
 
 ### 4. Update Database
 
-Run the Entity Framework migrations to create the database:
-
+Run the Entity Framework migrations to create the database:\
+**For VS Code**
 ```bash
 dotnet ef database update --project DotNetAcademy.Persistence --startup-project DotNetAcademy
 ```
 
-Or through the nuget terminal
-
-Select **DotNetAcademy.Persistence** as default project and run:
-
+**For Visual Studio**
+- Go to: Tools -> NuGet Package Manager -> Package Manager Console
+- Select **DotNetAcademy.Persistence**(or the porject in which you Db Context will exist in) as default project and run:
 ```bash
 Update-Database
 ```
 
 ### 5. Run the Application
-
+**For VS Code**
 ```bash
 dotnet run --project DotNetAcademy
 ```
+**For Visual Studio**
+- Press the non-filled green play button to run the project without the debugger enabled.
+- Press the filled green play button to run the project with the debugger enabled.
 
 The application will be available at `https://localhost:7021` 
 
