@@ -1,11 +1,6 @@
 using DotNetAcademy.Components;
 using DotNetAcademy.Persistence;
 using DotNetAcademy.Persistence.Entities;
-using DotNetAcademy.Persistence.Repositories;
-using DotNetAcademy.Persistence.Repositories.Interfaces;
-using DotNetAcademy.Services.ApplicationUserService;
-using DotNetAcademy.Services.ItemService;
-using DotNetAcademy.Services.ItemsService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,38 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddCascadingAuthenticationState();
-
 builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
 	options.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectionString"]));
-
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-{
-	options.SignIn.RequireConfirmedAccount = false;
-	options.Password.RequireDigit = true;
-	options.Password.RequiredLength = 6;
-	options.Password.RequireNonAlphanumeric = false;
-})
-	.AddEntityFrameworkStores<ApplicationDbContext>()
-	.AddDefaultTokenProviders();
-
-builder.Services.ConfigureApplicationCookie(options =>
-{
-	options.Cookie.HttpOnly = true;
-	options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-	options.LoginPath = "/login";
-	options.AccessDeniedPath = "/Account/AccessDenied";
-	options.SlidingExpiration = true;
-});
-
-
-//Repositories
-builder.Services.AddScoped<IItemRepository, ItemRepository>();
-builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
-
-//Services
-builder.Services.AddScoped<IItemService, ItemService>();
-builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 
 var app = builder.Build();
 
@@ -59,9 +24,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.UseAntiforgery();
 
