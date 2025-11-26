@@ -48,9 +48,4 @@ public partial class Header
     {
         NavigationManager.NavigateTo("/logout", forceLoad: true);
     }
-
-    private void NavigateToEditProfile()
-    {
-        NavigationManager.NavigateTo("/editprofile");
-    }
 }
