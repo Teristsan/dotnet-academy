@@ -1,6 +1,9 @@
 using DotNetAcademy.Components;
 using DotNetAcademy.Persistence;
 using DotNetAcademy.Persistence.Entities;
+using DotNetAcademy.Persistence.Repositories.Implementations;
+using DotNetAcademy.Persistence.Repositories.Interfaces;
+using DotNetAcademy.Services.ApplicationUserService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +36,10 @@ builder.Services.ConfigureApplicationCookie(options =>
 	options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
 	options.LoginPath = "/login";
 });
+
+// Add repository and service registrations
+builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 
 var app = builder.Build();
 
